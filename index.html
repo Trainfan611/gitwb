@@ -1,72 +1,1052 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Мыло Mylo Soap - натуральное мыло ручной работы</title>
-    <meta
-      name="description"
-      content="Mylo Soap - натуральное мыло ручной работы. Экологичные составы, приятные ароматы и бережный уход за кожей."
-    />
-    <meta
-      name="keywords"
-      content="мыло, натуральное мыло, мыло ручной работы, купить мыло, mylo soap"
-    />
-    <meta name="yandex-verification" content="REPLACE_WITH_YANDEX_TOKEN" />
-    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-    <link rel="canonical" href="https://mylo-soap.up.railway.app/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Мыло Mylo Soap" />
-    <meta
-      property="og:description"
-      content="Натуральное мыло Mylo Soap: чистый состав, мягкое очищение и приятные ароматы."
-    />
-    <meta property="og:url" content="https://mylo-soap.up.railway.app/" />
-    <meta property="og:locale" content="ru_RU" />
-    <link rel="stylesheet" href="./styles.css" />
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Mylo Soap",
-        "url": "https://mylo-soap.up.railway.app/",
-        "description": "Производитель натурального мыла ручной работы.",
-        "sameAs": []
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WB SEO Generator</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0f0f13;
+    --surface: #1a1a22;
+    --surface2: #22222e;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #f0f0f4;
+    --muted: #8888a0;
+    --hint: #555568;
+    --accent: #7c6af7;
+    --accent2: #a78bfa;
+    --success: #34d399;
+    --success-bg: rgba(52,211,153,0.1);
+    --danger: #f87171;
+    --danger-bg: rgba(248,113,113,0.1);
+    --warn: #fbbf24;
+    --warn-bg: rgba(251,191,36,0.1);
+    --info: #60a5fa;
+    --info-bg: rgba(96,165,250,0.1);
+  }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem 1rem; }
+  .app { max-width: 860px; margin: 0 auto; }
+  .header { margin-bottom: 2.5rem; }
+  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 20px; background: var(--info-bg); color: var(--info); border: 1px solid rgba(96,165,250,0.2); margin-bottom: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--info); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  h1 { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; background: linear-gradient(135deg, #fff 0%, var(--accent2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .subtitle { font-size: 14px; color: var(--muted); margin-top: 6px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 1rem; transition: border-color 0.2s; }
+  .card:hover { border-color: var(--border2); }
+  .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 1.25rem; }
+  .step-badge { width: 24px; height: 24px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: var(--muted); flex-shrink: 0; font-weight: 600; }
+  .step-badge.active { background: var(--info-bg); border-color: var(--info); color: var(--info); }
+  .step-badge.done { background: var(--success-bg); border-color: var(--success); color: var(--success); }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
+  label { font-size: 13px; color: var(--muted); display: block; margin-bottom: 6px; font-weight: 500; }
+  input[type=text], textarea, select {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px;
+    padding: 9px 12px; font-size: 14px; color: var(--text); outline: none; transition: border-color 0.15s;
+    font-family: inherit;
+  }
+  input[type=text]:focus, textarea:focus, select:focus { border-color: var(--accent); }
+  select option { background: var(--surface2); }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { margin-bottom: 14px; }
+  .api-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .img-upload { border: 1.5px dashed var(--border2); border-radius: 10px; padding: 1.5rem; text-align: center; cursor: pointer; position: relative; overflow: hidden; transition: border-color 0.2s, background 0.2s; }
+  .img-upload:hover { border-color: var(--accent); background: rgba(124,106,247,0.04); }
+  .img-upload input[type=file] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+  #img-preview { width: 100%; max-height: 150px; object-fit: contain; border-radius: 8px; display: none; }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 20px; font-size: 14px; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.15s; border: 1px solid var(--border2); background: var(--surface2); color: var(--text); font-family: inherit; }
+  .btn:hover { background: var(--surface); border-color: var(--border2); }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent2); border-color: var(--accent2); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .btn-full { width: 100%; }
+  .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; }
+  .cat-item { padding: 10px 14px; border: 1px solid var(--border2); border-radius: 8px; cursor: pointer; font-size: 13px; transition: all 0.15s; }
+  .cat-item:hover { border-color: var(--accent); background: rgba(124,106,247,0.07); }
+  .cat-item.selected { border-color: var(--accent); background: rgba(124,106,247,0.12); color: var(--accent2); }
+  .cat-name { font-weight: 600; }
+  .cat-path { font-size: 11px; color: var(--hint); margin-top: 2px; }
+  .competitor-row { padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .comp-rank { font-size: 11px; color: var(--accent); font-weight: 700; min-width: 24px; }
+  .comp-info { flex: 1; }
+  .comp-brand { font-size: 12px; color: var(--accent2); font-weight: 600; }
+  .comp-title { font-size: 13px; color: var(--muted); margin-top: 2px; }
+  .comp-sales { font-size: 12px; color: var(--success); text-align: right; white-space: nowrap; }
+  .keys-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .key-pill { padding: 4px 12px; font-size: 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); transition: all 0.15s; user-select: none; }
+  .key-pill:hover { border-color: var(--accent); color: var(--accent2); }
+  .key-pill.on { background: rgba(124,106,247,0.12); border-color: var(--accent); color: var(--accent2); }
+  .status-bar { font-size: 13px; padding: 8px 14px; border-radius: 8px; margin-top: 10px; display: none; }
+  .status-bar.loading { background: var(--warn-bg); color: var(--warn); display: flex; align-items: center; gap: 8px; }
+  .status-bar.success { background: var(--success-bg); color: var(--success); display: block; }
+  .status-bar.error { background: var(--danger-bg); color: var(--danger); display: block; }
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border); margin-bottom: 1.25rem; }
+  .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: all 0.15s; font-weight: 500; }
+  .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .result-block { background: var(--surface2); border-radius: 8px; padding: 1rem 1.25rem; font-size: 14px; line-height: 1.75; color: var(--text); white-space: pre-wrap; border: 1px solid var(--border); min-height: 60px; }
+  .section-label { font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 8px; margin-top: 16px; }
+  .char-count { font-size: 11px; color: var(--hint); text-align: right; margin-top: 4px; }
+  .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; font-size: 12px; border-radius: 20px; background: rgba(124,106,247,0.1); border: 1px solid rgba(124,106,247,0.3); color: var(--accent2); }
+  .tag .rm { cursor: pointer; color: var(--muted); line-height: 1; font-size: 15px; }
+  .tag .rm:hover { color: var(--danger); }
+  .sep { height: 1px; background: var(--border); margin: 1.25rem 0; }
+  .images-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .img-card { border: 1px solid var(--border2); border-radius: 10px; overflow: hidden; background: var(--surface2); }
+  .img-card img, .img-placeholder { width: 100%; aspect-ratio: 1; display: block; object-fit: cover; }
+  .img-placeholder { background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--hint); }
+  .img-placeholder.loading { background: linear-gradient(90deg, var(--surface2) 25%, rgba(255,255,255,0.03) 50%, var(--surface2) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+  @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  .img-label { padding: 8px 12px; font-size: 12px; font-weight: 600; color: var(--muted); border-top: 1px solid var(--border); }
+  .img-download-btn { display: none; padding: 6px; text-align: center; font-size: 12px; color: var(--accent); cursor: pointer; border-top: 1px solid var(--border); transition: background 0.15s; }
+  .img-download-btn:hover { background: rgba(124,106,247,0.07); }
+  .model-toggle { display: flex; gap: 8px; }
+  .model-btn { flex: 1; padding: 10px 8px; font-size: 13px; border: 1px solid var(--border2); border-radius: 8px; background: var(--surface2); color: var(--muted); cursor: pointer; text-align: center; transition: all 0.15s; font-family: inherit; }
+  .model-btn.active { background: rgba(124,106,247,0.12); border-color: var(--accent); color: var(--accent2); }
+  .model-btn .model-name { font-weight: 700; display: block; }
+  .model-btn .model-sub { font-size: 11px; opacity: 0.6; display: block; margin-top: 2px; }
+  .copy-btn { font-size: 12px; padding: 4px 10px; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface); color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .copy-btn:hover { color: var(--text); border-color: var(--border2); }
+  .section-actions { display: flex; justify-content: flex-end; margin-top: 14px; }
+  .hint { font-size: 11px; color: var(--hint); margin-top: 4px; }
+  .concepts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .concept-card { border: 1px solid var(--border2); border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.15s; text-align: center; position: relative; }
+  .concept-card:hover { border-color: var(--accent); background: rgba(124,106,247,0.06); }
+  .concept-card.selected { border-color: var(--accent); background: rgba(124,106,247,0.12); }
+  .concept-card.selected::after { content:"✓"; position:absolute; top:6px; right:8px; font-size:11px; color:var(--accent); font-weight:700; }
+  .concept-icon { font-size: 22px; margin-bottom: 6px; }
+  .concept-name { font-size: 13px; font-weight: 600; color: var(--text); }
+  .concept-desc { font-size: 11px; color: var(--hint); margin-top: 3px; line-height: 1.4; }
+  .infobtn { padding: 6px 14px; font-size: 12px; font-weight: 600; border: 1px solid var(--border2); border-radius: 6px; background: var(--surface2); color: var(--muted); cursor: pointer; transition: all 0.15s; font-family: inherit; }
+  .infobtn.active { background: rgba(124,106,247,0.12); border-color: var(--accent); color: var(--accent2); }
+  .settings-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); font-family: inherit; transition: all 0.15s; }
+  .settings-btn:hover { color: var(--text); border-color: var(--accent); }
+  .settings-btn svg { width: 15px; height: 15px; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
+  .modal-overlay.hidden { display: none; }
+  .modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 1.75rem; width: 100%; max-width: 640px; position: relative; }
+  .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .modal-title { font-size: 16px; font-weight: 700; color: var(--text); }
+  .modal-close { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; line-height: 1; transition: all 0.15s; font-family: inherit; }
+  .modal-close:hover { color: var(--text); border-color: var(--text); }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+  @media (max-width: 600px) {
+    .row, .api-grid { grid-template-columns: 1fr; }
+    .images-grid { grid-template-columns: 1fr; }
+    .modal { padding: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header" style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:2.5rem">
+    <div>
+      <div class="badge"><span class="badge-dot"></span> WB SEO Generator</div>
+      <h1>Генератор карточек Wildberries</h1>
+      <div class="subtitle">MPStats анализ · SEO-описание Claude AI · Генерация изображений GPT / Nano Banana</div>
+    </div>
+    <button class="settings-btn" onclick="openSettings()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Настройки
+    </button>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay hidden" id="settings-modal" onclick="closeSettingsOutside(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title">⚙ Настройки</div>
+        <button class="modal-close" onclick="closeSettings()">×</button>
+      </div>
+      <div class="tabs" id="tabs-settings">
+        <div class="tab active" onclick="tab('settings','keys')">API ключи</div>
+        <div class="tab" onclick="tab('settings','model')">Модель изображений</div>
+      </div>
+      <div id="settings-keys" class="tab-panel active">
+        <div class="api-grid">
+          <div class="field">
+            <label>MPStats API ключ</label>
+            <input type="text" id="mpstats-key" placeholder="Ваш токен mpstats.io" />
+            <div class="hint">Личный кабинет → API на mpstats.io</div>
+          </div>
+          <div class="field">
+            <label>Perplexity API ключ (для SEO)</label>
+            <input type="text" id="anthropic-key" placeholder="pplx-..." />
+            <div class="hint">perplexity.ai → Settings → API</div>
+          </div>
+          <div class="field">
+            <label>OpenAI API ключ (GPT Image 1)</label>
+            <input type="text" id="openai-key" placeholder="sk-..." />
+          </div>
+          <div class="field">
+            <label>OpenRouter API ключ (Nano Banana)</label>
+            <input type="text" id="openrouter-key" placeholder="sk-or-..." />
+            <div class="hint">openrouter.ai → Keys</div>
+          </div>
+          <div class="field" style="grid-column:1/-1">
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+              <div style="flex:1">
+                <div style="font-size:13px;font-weight:600;color:var(--text)">CORS-прокси для MPStats</div>
+                <div style="font-size:11px;color:var(--muted);margin-top:3px">Запустите <code style="background:rgba(255,255,255,0.07);padding:1px 6px;border-radius:4px;font-family:monospace">node proxy.js</code> и включите — получите реальные данные продаж, выручки и ключей из MPStats</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0">
+                <div id="proxy-status-dot" style="width:8px;height:8px;border-radius:50%;background:var(--hint);transition:background 0.3s"></div>
+                <button id="proxy-off" onclick="setProxy(false)" style="padding:5px 12px;font-size:12px;font-weight:600;border:1px solid var(--border2);border-radius:6px;background:rgba(124,106,247,0.12);border-color:var(--accent);color:var(--accent2);cursor:pointer;font-family:inherit">Выкл</button>
+                <button id="proxy-on" onclick="setProxy(true)" style="padding:5px 12px;font-size:12px;font-weight:600;border:1px solid var(--border2);border-radius:6px;background:var(--surface);color:var(--muted);cursor:pointer;font-family:inherit">Вкл</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="settings-model" class="tab-panel">
+        <label style="margin-bottom:10px">Выберите модель для генерации изображений</label>
+        <div class="model-toggle">
+          <button class="model-btn active" id="btn-gpt" onclick="setModel('gpt')">
+            <span class="model-name">GPT Image 1</span>
+            <span class="model-sub">OpenAI · лучшее качество</span>
+          </button>
+          <button class="model-btn" id="btn-banana" onclick="setModel('banana')">
+            <span class="model-name">Nano Banana</span>
+            <span class="model-sub">OpenRouter · быстрее</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeSettings()">Отмена</button>
+        <button class="btn btn-primary" onclick="saveSettings()">Сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 1 -->
+  <div class="card">
+    <div class="card-header">
+      <div class="step-badge active" id="s1">1</div>
+      <div class="card-title">Информация о товаре</div>
+    </div>
+    <div class="row">
+      <div class="field">
+        <label>Название товара *</label>
+        <input type="text" id="product-name" placeholder="Термокружка 500мл нержавеющая" />
+      </div>
+      <div class="field">
+        <label>Особенности (опционально)</label>
+        <input type="text" id="product-desc" placeholder="цвет, материал, размер, УТП..." />
+      </div>
+    </div>
+    <div class="field">
+      <label>Фото товара (для генерации изображений)</label>
+      <div class="img-upload" id="upload-zone">
+        <input type="file" id="img-input" accept="image/*" onchange="onImg(event)" />
+        <img id="img-preview" />
+        <div id="upload-text">
+          <div class="upload-icon">📷</div>
+          <div style="font-size:14px;color:var(--muted);font-weight:500">Нажмите или перетащите фото</div>
+          <div style="font-size:12px;color:var(--hint);margin-top:4px">JPG, PNG, WEBP · до 10MB</div>
+        </div>
+      </div>
+    </div>
+    <div class="section-actions">
+      <button class="btn btn-primary" onclick="findCategories()">
+        <span id="sp-cat" class="spinner" style="display:none"></span>
+        Найти категории →
+      </button>
+    </div>
+    <div class="status-bar" id="st-cat"></div>
+  </div>
+
+  <!-- Step 2 -->
+  <div class="card" id="card-cats" style="display:none">
+    <div class="card-header">
+      <div class="step-badge" id="s2">2</div>
+      <div class="card-title">Выбор категории WB</div>
+    </div>
+    <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Выберите наиболее подходящую категорию</div>
+    <div class="categories-grid" id="cats-list"></div>
+    <div class="section-actions" style="margin-top:16px">
+      <button class="btn btn-primary" id="btn-analyze" onclick="analyzeCompetitors()" disabled>
+        <span id="sp-comp" class="spinner" style="display:none"></span>
+        Анализ конкурентов →
+      </button>
+    </div>
+    <div class="status-bar" id="st-comp"></div>
+  </div>
+
+  <!-- Step 3 -->
+  <div class="card" id="card-comp" style="display:none">
+    <div class="card-header">
+      <div class="step-badge" id="s3">3</div>
+      <div class="card-title">Конкуренты и ключевые слова</div>
+    </div>
+    <div class="tabs" id="tabs-comp">
+      <div class="tab active" onclick="tab('comp','list')">Топ 10 конкурентов</div>
+      <div class="tab" onclick="tab('comp','keys')">Ключевые слова</div>
+    </div>
+    <div id="comp-list" class="tab-panel active" id="comp-list"></div>
+    <div id="comp-keys" class="tab-panel">
+      <div style="font-size:13px;color:var(--muted)">Нажмите на ключевое слово чтобы исключить из генерации</div>
+      <div class="keys-cloud" id="keys-cloud"></div>
+    </div>
+    <div class="sep"></div>
+    <div class="section-actions">
+      <button class="btn btn-primary" onclick="generate()">
+        <span id="sp-gen" class="spinner" style="display:none"></span>
+        Генерировать SEO + изображения ↗
+      </button>
+    </div>
+    <div class="status-bar" id="st-gen"></div>
+  </div>
+
+  <!-- Step 4 -->
+  <div class="card" id="card-result" style="display:none">
+    <div class="card-header">
+      <div class="step-badge" id="s4">4</div>
+      <div class="card-title">Результаты</div>
+    </div>
+    <div class="tabs" id="tabs-res">
+      <div class="tab active" onclick="tab('res','seo')">SEO описание</div>
+      <div class="tab" onclick="tab('res','imgs')">Изображения</div>
+    </div>
+
+    <div id="res-seo" class="tab-panel active">
+      <div class="section-label">Заголовок карточки</div>
+      <div class="result-block" id="r-title"></div>
+      <div class="section-label" style="display:flex;justify-content:space-between;align-items:center">
+        <span>SEO описание</span>
+        <button class="copy-btn" onclick="copySEO()">Копировать всё</button>
+      </div>
+      <div class="result-block" id="r-desc"></div>
+      <div class="char-count" id="r-chars"></div>
+      <div class="section-label">Ключевые слова для карточки</div>
+      <div class="tag-cloud" id="r-keys"></div>
+    </div>
+
+    <div id="res-imgs" class="tab-panel">
+      <div id="concept-selector">
+        <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px">Выберите концепции съёмки</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">Можно выбрать несколько — под каждую будет сгенерирована отдельная карточка</div>
+        <div class="concepts-grid" id="concepts-grid"></div>
+        <div style="margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="font-size:13px;color:var(--muted)">Инфографика (текст на картинке):</div>
+          <div style="display:flex;gap:8px">
+            <button class="infobtn active" id="info-yes" onclick="setInfoMode(true)">Да, добавить</button>
+            <button class="infobtn" id="info-no" onclick="setInfoMode(false)">Без текста</button>
+          </div>
+        </div>
+        <div id="infographic-text-block" style="margin-top:12px">
+          <label style="font-size:13px;color:var(--muted)">Ключевые преимущества для инфографики</label>
+          <textarea id="infographic-text" placeholder="Например: ✓ Держит тепло 8 часов  ✓ Нержавеющая сталь 18/8  ✓ Объём 500 мл" style="margin-top:6px;min-height:60px"></textarea>
+        </div>
+        <div id="img-source-note" style="margin-top:14px;padding:10px 14px;border-radius:8px;font-size:13px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;gap:10px"></div>
+        <div class="section-actions" style="margin-top:12px">
+          <button class="btn btn-primary" onclick="startImageGen()">
+            <span id="sp-imgs" class="spinner" style="display:none"></span>
+            Генерировать изображения →
+          </button>
+        </div>
+      </div>
+      <div id="imgs-results" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+          <div style="font-size:13px;color:var(--muted)" id="imgs-note"></div>
+          <button class="btn btn-sm" style="font-size:12px;padding:5px 12px" onclick="document.getElementById('concept-selector').style.display='block';document.getElementById('imgs-results').style.display='none'">← Изменить концепции</button>
+        </div>
+        <div class="images-grid" id="images-grid-dynamic"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const S = {
+  cat: null,
+  competitors: [],
+  keywords: [],
+  activeKeys: new Set(),
+  imgB64: null,
+  model: 'gpt',
+  proxyEnabled: false
+};
+
+const PROXY = 'http://localhost:3333';
+
+async function setProxy(on) {
+  if (on) {
+    // Test connection first
+    try {
+      const r = await fetch(`${PROXY}/health`, { signal: AbortSignal.timeout(2000) });
+      const d = await r.json();
+      if (d.status === 'ok') {
+        S.proxyEnabled = true;
+        document.getElementById('proxy-status-dot').style.background = 'var(--success)';
+        document.getElementById('proxy-on').style.cssText += ';background:rgba(52,211,153,0.12);border-color:var(--success);color:var(--success)';
+        document.getElementById('proxy-off').style.cssText = 'padding:5px 12px;font-size:12px;font-weight:600;border:1px solid var(--border2);border-radius:6px;background:var(--surface);color:var(--muted);cursor:pointer;font-family:inherit';
+        showProxyToast('✓ Прокси подключён — MPStats активен', 'success');
       }
-    </script>
-  </head>
-  <body>
-    <header class="hero">
-      <p class="hero__tag">Натуральный уход каждый день</p>
-      <h1>Мыло Mylo Soap</h1>
-      <p class="hero__text">
-        Делаем натуральное мыло с мягкими маслами и безопасными ароматами.
-      </p>
-      <a class="hero__cta" href="#catalog">Выбрать мыло</a>
-    </header>
+    } catch(e) {
+      showProxyToast('✗ Прокси недоступен. Запустите: node proxy.js', 'error');
+    }
+  } else {
+    S.proxyEnabled = false;
+    document.getElementById('proxy-status-dot').style.background = 'var(--hint)';
+    document.getElementById('proxy-off').style.cssText += ';background:rgba(124,106,247,0.12);border-color:var(--accent);color:var(--accent2)';
+    document.getElementById('proxy-on').style.cssText = 'padding:5px 12px;font-size:12px;font-weight:600;border:1px solid var(--border2);border-radius:6px;background:var(--surface);color:var(--muted);cursor:pointer;font-family:inherit';
+  }
+}
 
-    <main>
-      <section id="catalog" class="section">
-        <h2>Почему выбирают наше мыло</h2>
-        <ul>
-          <li>Натуральный состав без агрессивных компонентов.</li>
-          <li>Ручная работа и строгий контроль качества.</li>
-          <li>Подходит для ежедневного использования.</li>
-        </ul>
-      </section>
+function showProxyToast(msg, type) {
+  let t = document.getElementById('proxy-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'proxy-toast';
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;z-index:9999;transition:opacity 0.3s;pointer-events:none';
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = type === 'success' ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)';
+  t.style.color = type === 'success' ? 'var(--success)' : 'var(--danger)';
+  t.style.border = type === 'success' ? '1px solid var(--success)' : '1px solid var(--danger)';
+  t.style.opacity = '1';
+  setTimeout(() => t.style.opacity = '0', 3000);
+}
 
-      <section class="section">
-        <h2>Популярные варианты</h2>
-        <p>
-          Лавандовое мыло, цитрусовое мыло и детское мягкое мыло. Подберем
-          вариант под ваш тип кожи.
-        </p>
-      </section>
-    </main>
+// Tab switcher
+const TAB_PANELS = {
+  settings: ['settings-keys','settings-model'],
+  comp: ['comp-list','comp-keys'],
+  res: ['res-seo','res-imgs']
+};
+function tab(group, name) {
+  const panels = TAB_PANELS[group];
+  panels.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.className = 'tab-panel' + (id === `${group}-${name}` ? ' active' : '');
+  });
+  const tabEls = document.querySelectorAll(`#tabs-${group} .tab`);
+  const idx = panels.indexOf(`${group}-${name}`);
+  tabEls.forEach((t, i) => t.classList.toggle('active', i === idx));
+}
 
-    <footer class="footer">
-      <p>Mylo Soap - мыло ручной работы</p>
-      <p>Контакты: hello@mylo-soap.com</p>
-    </footer>
-  </body>
+function openSettings() {
+  document.getElementById('settings-modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeSettings() {
+  document.getElementById('settings-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+function closeSettingsOutside(e) {
+  if (e.target === document.getElementById('settings-modal')) closeSettings();
+}
+function saveSettings() {
+  closeSettings();
+  // Show brief confirmation
+  const btn = document.querySelector('.settings-btn');
+  const orig = btn.innerHTML;
+  btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Сохранено';
+  setTimeout(() => btn.innerHTML = orig, 2000);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSettings(); });
+
+function setModel(m) {
+  S.model = m;
+  document.getElementById('btn-gpt').classList.toggle('active', m === 'gpt');
+  document.getElementById('btn-banana').classList.toggle('active', m === 'banana');
+}
+
+function onImg(e) {
+  const f = e.target.files[0];
+  if (!f) return;
+  const r = new FileReader();
+  r.onload = ev => {
+    S.imgB64 = ev.target.result.split(',')[1];
+    const p = document.getElementById('img-preview');
+    p.src = ev.target.result;
+    p.style.display = 'block';
+    document.getElementById('upload-text').style.display = 'none';
+    updateImgSourceNote();
+  };
+  r.readAsDataURL(f);
+}
+
+function status(id, msg, type) {
+  const el = document.getElementById(id);
+  if (!msg) { el.style.display = 'none'; return; }
+  el.className = `status-bar ${type}`;
+  el.innerHTML = type === 'loading' ? `<span class="spinner"></span>${msg}` : msg;
+}
+
+async function findCategories() {
+  const name = document.getElementById('product-name').value.trim();
+  if (!name) { status('st-cat','Введите название товара','error'); return; }
+  const mpKey = document.getElementById('mpstats-key').value.trim();
+
+  document.getElementById('sp-cat').style.display = 'inline-block';
+
+  let cats = [];
+
+  // ── MPStats через прокси ──────────────────────────────────────────
+  if (S.proxyEnabled && mpKey) {
+    try {
+      status('st-cat','Загружаем категории из MPStats...','loading');
+      const r = await fetch(`${PROXY}/api/wb/get/categories`, {
+        headers: { 'X-Mpstats-TOKEN': mpKey },
+        signal: AbortSignal.timeout(8000)
+      });
+      if (!r.ok) throw new Error(`MPStats: ${r.status}`);
+      const d = await r.json();
+      const raw = Array.isArray(d) ? d : (d.data || []);
+      // Filter by name relevance
+      const q = name.toLowerCase();
+      const scored = raw.map(c => {
+        const n = (c.name || c.category || '').toLowerCase();
+        const score = q.split(' ').filter(w => w.length > 2 && n.includes(w)).length;
+        return { ...c, _score: score };
+      }).sort((a,b) => b._score - a._score);
+      cats = scored.slice(0, 20).map(c => ({
+        name: c.name || c.category || c.title || '',
+        path: c.path || c.breadcrumb || '',
+        mpstats: true
+      })).filter(c => c.name);
+      if (!cats.length) throw new Error('Нет категорий');
+      status('st-cat', `MPStats: найдено ${cats.length} категорий`, 'success');
+      setTimeout(() => status('st-cat','',''), 2000);
+    } catch(e) {
+      status('st-cat', `MPStats ошибка: ${e.message} — переключаемся на WB`, 'error');
+      cats = [];
+    }
+  }
+
+  // ── WB публичный API (fallback) ───────────────────────────────────
+  if (!cats.length) {
+    try {
+      status('st-cat','Ищем категории на Wildberries...','loading');
+      const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(name)}&resultset=catalog&sort=popular&spp=30`;
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`WB: ${r.status}`);
+      const d = await r.json();
+      const catMap = new Map();
+      (d.data?.products || []).forEach(p => {
+        if (p.subjectName && !catMap.has(p.subjectName)) {
+          catMap.set(p.subjectName, { name: p.subjectName, path: p.kindName || '' });
+        }
+      });
+      cats = [...catMap.values()].slice(0, 20);
+      if (!cats.length) throw new Error('Нет данных');
+      status('st-cat', `WB: найдено ${cats.length} категорий`, 'success');
+      setTimeout(() => status('st-cat','',''), 2000);
+    } catch(e) {
+      cats = smartCategories(name);
+      status('st-cat','Категории подобраны по названию товара','success');
+      setTimeout(() => status('st-cat','',''), 2500);
+    }
+  }
+
+  document.getElementById('sp-cat').style.display = 'none';
+  renderCategories(cats);
+}
+
+function smartCategories(name) {
+  const n = name.toLowerCase();
+  const db = [
+    { keys:['платье','юбка','блуза','блузка','топ','футболка','свитер','кофта','пальто','куртка','жакет','джинсы','брюки','шорты','леггинсы','костюм','комбинезон'], cats:['Платья','Женская одежда','Блузки и рубашки','Джинсы','Брюки','Юбки'] },
+    { keys:['кроссовки','туфли','сапоги','ботинки','мокасины','сандалии','тапки','обувь'], cats:['Кроссовки','Женская обувь','Мужская обувь','Ботинки','Сапоги'] },
+    { keys:['сумка','рюкзак','клатч','кошелёк','кошелек','портмоне','чемодан','сумочка'], cats:['Сумки','Рюкзаки','Кошельки','Клатчи','Чемоданы'] },
+    { keys:['крем','сыворотка','тоник','маска','шампунь','бальзам','гель','мицеллярная','уход','косметика','помада','тушь','тени','пудра','тональный'], cats:['Уход за лицом','Уход за волосами','Декоративная косметика','Уход за телом'] },
+    { keys:['телефон','смартфон','наушники','зарядка','кабель','чехол','powerbank','планшет','ноутбук','мышь','клавиатура','электроника'], cats:['Смартфоны','Чехлы для телефонов','Наушники','Аксессуары для гаджетов','Электроника'] },
+    { keys:['игрушка','конструктор','кукла','машинка','пазл','настольная игра','мягкая игрушка','лего','развивающий'], cats:['Игрушки','Конструкторы','Куклы','Настольные игры','Мягкие игрушки'] },
+    { keys:['кружка','термос','термокружка','посуда','тарелка','кастрюля','сковорода','нож','столовые','чашка'], cats:['Кружки и стаканы','Термосы','Посуда','Кухонные принадлежности'] },
+    { keys:['диван','стул','стол','шкаф','кровать','полка','тумба','комод','кресло','мебель'], cats:['Мебель для гостиной','Стулья','Столы','Шкафы','Мебель для спальни'] },
+    { keys:['спорт','фитнес','йога','гантель','коврик','велосипед','самокат','скакалка','тренажёр','протеин'], cats:['Спортивный инвентарь','Фитнес','Велосипеды','Спортивное питание'] },
+    { keys:['книга','канцелярия','тетрадь','ручка','блокнот','офис','папка'], cats:['Книги','Канцтовары','Офисные принадлежности'] },
+    { keys:['корм','поводок','ошейник','когтеточка','клетка','аквариум','зоотовары','питомец'], cats:['Корма для кошек','Корма для собак','Аксессуары для животных','Зоотовары'] },
+    { keys:['цветок','горшок','семена','удобрение','садовый','дача','рассада'], cats:['Комнатные растения','Семена','Садовый инвентарь','Товары для сада'] },
+  ];
+  for (const row of db) {
+    if (row.keys.some(k => n.includes(k))) {
+      return row.cats.map(c => ({ name: c, path: 'Wildberries' }));
+    }
+  }
+  // Generic fallback
+  return [
+    {name: name.split(' ').slice(0,2).join(' '), path:'Wildberries'},
+    {name:'Товары для дома', path:'Дом'},
+    {name:'Аксессуары', path:'Разное'},
+    {name:'Подарки', path:'Хобби'},
+    {name:'Товары для офиса', path:'Канцтовары'},
+  ];
+}
+
+function renderCategories(cats) {
+  document.getElementById('card-cats').style.display = 'block';
+  document.getElementById('s2').className = 'step-badge active';
+  const list = document.getElementById('cats-list');
+  list.innerHTML = cats.map((c,i) => {
+    const n = c.name || c.category || c.title || String(c).slice(0,50);
+    const p = c.path || c.breadcrumb || '';
+    return `<div class="cat-item" onclick="selectCat(${i},'${n.replace(/'/g,"\\'")}')">
+      <div class="cat-name">${n}</div>
+      ${p ? `<div class="cat-path">${p}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function selectCat(i, name) {
+  S.cat = name;
+  document.querySelectorAll('.cat-item').forEach((el,j) => el.classList.toggle('selected', i===j));
+  document.getElementById('btn-analyze').disabled = false;
+}
+
+async function analyzeCompetitors() {
+  if (!S.cat) return;
+  const mpKey = document.getElementById('mpstats-key').value.trim();
+  document.getElementById('sp-comp').style.display = 'inline-block';
+  document.getElementById('btn-analyze').disabled = true;
+
+  let items = [];
+
+  // ── MPStats через прокси — богатые данные с продажами ─────────────
+  if (S.proxyEnabled && mpKey) {
+    try {
+      status('st-comp','Загружаем топ конкурентов из MPStats (продажи, выручка, ключи)...','loading');
+      const today = new Date();
+      const d1 = new Date(today); d1.setDate(d1.getDate() - 30);
+      const fmt = d => d.toISOString().split('T')[0];
+      const url = `${PROXY}/api/wb/get/category?path=${encodeURIComponent(S.cat)}&d1=${fmt(d1)}&d2=${fmt(today)}`;
+      const r = await fetch(url, {
+        headers: { 'X-Mpstats-TOKEN': mpKey },
+        signal: AbortSignal.timeout(12000)
+      });
+      if (!r.ok) throw new Error(`MPStats: ${r.status}`);
+      const d = await r.json();
+      const raw = (d.data || d);
+      if (!Array.isArray(raw) || !raw.length) throw new Error('Нет данных');
+      items = raw.slice(0, 10).map(p => ({
+        name: p.name || p.title || '',
+        brand: p.brand || p.brandName || '',
+        sales: p.sales || p.revenue_count || 0,
+        revenue: p.revenue || 0,
+        rating: p.final_price ? null : (p.rating || 0),
+        feedbacks: p.comments || p.feedbacks || 0,
+        price: p.final_price || p.price || 0,
+        url: p.url || '',
+        fromMpstats: true
+      }));
+      status('st-comp', `MPStats: ${items.length} конкурентов с данными продаж`, 'success');
+      setTimeout(() => status('st-comp','',''), 2500);
+    } catch(e) {
+      status('st-comp', `MPStats: ${e.message} — переключаемся на WB`, 'error');
+      items = [];
+    }
+  }
+
+  // ── WB публичный API (fallback) ───────────────────────────────────
+  if (!items.length) {
+    try {
+      status('st-comp','Загружаем конкурентов с Wildberries...','loading');
+      const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(S.cat)}&resultset=catalog&sort=popular&spp=30`;
+      const r = await fetch(url);
+      if (!r.ok) throw new Error(`WB: ${r.status}`);
+      const d = await r.json();
+      const products = (d.data?.products || []).slice(0, 10);
+      if (!products.length) throw new Error('Нет товаров');
+      items = products.map(p => ({
+        name: p.name || '',
+        brand: p.brand || p.brandName || '',
+        sales: 0,
+        rating: p.reviewRating || 0,
+        feedbacks: p.feedbacks || 0,
+        price: p.priceU ? Math.round(p.priceU / 100) : 0,
+      }));
+      items.sort((a,b) => (b.feedbacks||0) - (a.feedbacks||0));
+      status('st-comp', `WB: найдено ${items.length} конкурентов`, 'success');
+      setTimeout(() => status('st-comp','',''), 2000);
+    } catch(e) {
+      items = demoCompetitors();
+      status('st-comp','Демо-данные (WB временно недоступен)','success');
+      setTimeout(() => status('st-comp','',''), 2000);
+    }
+  }
+
+  document.getElementById('sp-comp').style.display = 'none';
+  document.getElementById('btn-analyze').disabled = false;
+  processCompetitors(items);
+}
+
+function demoCompetitors() {
+  return [
+    {name:'Термокружка Stanley 500мл нержавеющая сталь крышка вакуумная', sales:4520, brand:'Stanley'},
+    {name:'Термос туристический металлический 500мл двойные стенки', sales:3810, brand:'Thermos'},
+    {name:'Кружка термо 500мл для кофе с ручкой нержавеющая стальная', sales:3200, brand:'Contigo'},
+    {name:'Термокружка с клапаном 500мл сохраняет тепло 8 часов компактная', sales:2950, brand:'Emsa'},
+    {name:'Кружка термос дорожная 500мл для автомобиля кофе чай горячий', sales:2740, brand:'CamelBak'},
+    {name:'Термос спортивный 500мл металлический поилка спорт туризм', sales:2100, brand:'Hydro Flask'},
+    {name:'Кружка туристическая нержавеющая 500мл складная лёгкая', sales:1980, brand:'GSI'},
+    {name:'Термокружка вакуумная 500мл сохраняет холод 12 часов', sales:1750, brand:'Klean Kanteen'},
+    {name:'Металлическая кружка термос 500мл для туризма походов горы', sales:1600, brand:'BioLite'},
+    {name:'Портативный термос кружка 500мл карманный удобный легкий', sales:1420, brand:'Primus'},
+  ];
+}
+
+function processCompetitors(items) {
+  S.competitors = items;
+  const kw = new Set();
+  const stop = new Set(['для','при','это','как','или','что','еще','уже','всех','очень','через','после','перед','около','чтобы','когда','если','также','более','самый','самая','самое']);
+  items.forEach(it => {
+    const t = (it.name||it.title||'').toLowerCase();
+    t.split(/[\s,\.]+/).forEach(w => {
+      const clean = w.replace(/[^а-яёa-z0-9]/gi,'').trim();
+      if (clean.length > 3 && !stop.has(clean)) kw.add(clean);
+    });
+  });
+  S.keywords = [...kw];
+  S.activeKeys = new Set(S.keywords);
+
+  document.getElementById('card-comp').style.display = 'block';
+  document.getElementById('s3').className = 'step-badge active';
+
+  document.getElementById('comp-list').innerHTML = items.map((c,i) => {
+    const stars = c.rating ? '★'.repeat(Math.min(5,Math.round(c.rating))) + '☆'.repeat(Math.max(0,5-Math.round(c.rating))) : '';
+    const meta = [
+      c.feedbacks ? `💬 ${c.feedbacks.toLocaleString()} отзывов` : '',
+      c.rating ? `${stars} ${c.rating}` : '',
+      c.price ? `💰 ${c.price.toLocaleString()} ₽` : '',
+    ].filter(Boolean).join('  ·  ');
+    const salesBadge = c.fromMpstats && c.sales
+      ? `<div style="text-align:right;flex-shrink:0"><div style="font-size:13px;font-weight:700;color:var(--success)">${c.sales.toLocaleString()}</div><div style="font-size:10px;color:var(--hint)">продаж/мес</div>${c.revenue?`<div style="font-size:10px;color:var(--accent2)">${(c.revenue/1000).toFixed(0)}к ₽</div>`:''}</div>`
+      : (c.feedbacks ? `<div style="text-align:right;flex-shrink:0"><div style="font-size:12px;color:var(--muted)">${c.feedbacks.toLocaleString()}</div><div style="font-size:10px;color:var(--hint)">отзывов</div></div>` : '');
+    return `<div class="competitor-row">
+      <div class="comp-rank">#${i+1}</div>
+      <div class="comp-info" style="flex:1;min-width:0">
+        ${c.brand ? `<div class="comp-brand">${c.brand}</div>` : ''}
+        <div class="comp-title">${(c.name||c.title||'').slice(0,95)}</div>
+        ${meta ? `<div style="font-size:11px;color:var(--hint);margin-top:3px">${meta}</div>` : ''}
+      </div>
+      ${salesBadge}
+    </div>`;
+  }).join('');
+
+  document.getElementById('keys-cloud').innerHTML = S.keywords.map(k =>
+    `<span class="key-pill on" onclick="toggleKey(this,'${k}')">${k}</span>`
+  ).join('');
+}
+
+function toggleKey(el, k) {
+  if (S.activeKeys.has(k)) { S.activeKeys.delete(k); el.classList.remove('on'); }
+  else { S.activeKeys.add(k); el.classList.add('on'); }
+}
+
+async function generate() {
+  const aKey = document.getElementById('anthropic-key').value.trim();
+  if (!aKey) { status('st-gen','Введите Anthropic API ключ','error'); return; }
+
+  document.getElementById('sp-gen').style.display = 'inline-block';
+  status('st-gen','Запуск параллельной генерации...','loading');
+  document.getElementById('card-result').style.display = 'block';
+  document.getElementById('s4').className = 'step-badge active';
+  initConcepts();
+
+  const name = document.getElementById('product-name').value.trim();
+  const desc = document.getElementById('product-desc').value.trim();
+  const keys = [...S.activeKeys].slice(0,40);
+  const compNames = S.competitors.map(c=>c.name||c.title||'').filter(Boolean);
+
+  await Promise.all([
+    genSEO(aKey, name, desc, keys, compNames),
+    genImages(name, desc, keys)
+  ]);
+
+  document.getElementById('sp-gen').style.display = 'none';
+  status('st-gen','Готово! SEO и изображения сгенерированы.','success');
+}
+
+async function genSEO(key, name, desc, keys, comps) {
+  const prompt = `Ты эксперт по SEO-оптимизации карточек товаров на Wildberries.
+
+Товар: "${name}"${desc ? ` — ${desc}` : ''}
+Категория: ${S.cat || 'не указана'}
+Ключевые слова конкурентов: ${keys.slice(0,35).join(', ')}
+Названия топ конкурентов: ${comps.slice(0,5).join(' | ')}
+
+Создай оптимизированный контент для карточки WB:
+
+1. SEO-заголовок (максимум 60 символов, включи 2-3 главных ключевых слова)
+2. Подробное SEO-описание (400-600 символов): включи ключевые слова, преимущества, характеристики, призыв к действию
+3. Список из 20 ключевых слов через запятую для поля "Ключевые слова" в карточке
+
+Строго отвечай только в этом формате:
+ЗАГОЛОВОК: [текст заголовка]
+ОПИСАНИЕ: [текст описания]
+КЛЮЧИ: [слово1, слово2, слово3, ...]`;
+
+  try {
+    const r = await fetch('https://api.perplexity.ai/chat/completions', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
+      body: JSON.stringify({
+        model:'llama-3.1-sonar-large-128k-online',
+        max_tokens:1200,
+        messages:[
+          {role:'system', content:'Ты эксперт по SEO для маркетплейса Wildberries. Отвечай только на русском языке.'},
+          {role:'user', content:prompt}
+        ]
+      })
+    });
+    const d = await r.json();
+    if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
+    parseSEO(d.choices?.[0]?.message?.content || '');
+  } catch(e) {
+    document.getElementById('r-desc').textContent = `Ошибка: ${e.message}`;
+  }
+}
+
+function parseSEO(text) {
+  const tm = text.match(/ЗАГОЛОВОК:\s*(.+)/);
+  const dm = text.match(/ОПИСАНИЕ:\s*([\s\S]+?)(?=КЛЮЧИ:|$)/);
+  const km = text.match(/КЛЮЧИ:\s*(.+)/s);
+
+  const title = tm ? tm[1].trim() : '';
+  const desc = dm ? dm[1].trim() : text.trim();
+  const keys = km ? km[1].split(',').map(k=>k.trim()).filter(Boolean) : [];
+
+  document.getElementById('r-title').textContent = title;
+  document.getElementById('r-desc').textContent = desc;
+  document.getElementById('r-chars').textContent = `${desc.length} символов`;
+  document.getElementById('r-keys').innerHTML = keys.map(k =>
+    `<span class="tag">${k}<span class="rm" onclick="this.parentElement.remove()">×</span></span>`
+  ).join('');
+}
+
+// ── Concept definitions (inspired by Aidentika) ──────────────────────────────
+const CONCEPTS = [
+  { id:'studio_white', icon:'🏛️', name:'Студия белая', desc:'Чистый белый фон, каталожный вид', selected:true,
+    prompt:'professional product photo on pure white studio background, clean catalog shot, soft even lighting from all sides, sharp focus on product, no shadows, e-commerce hero image' },
+  { id:'studio_dark', icon:'🖤', name:'Студия тёмная', desc:'Тёмный фон, драматичный свет', selected:true,
+    prompt:'premium product photography on dark charcoal background, dramatic moody lighting, subtle rim light, luxury feel, high contrast, shadows add depth, editorial style' },
+  { id:'lifestyle', icon:'🏡', name:'Лайфстайл', desc:'Реальная обстановка, интерьер', selected:true,
+    prompt:'lifestyle product photography in modern interior setting, natural daylight through window, styled composition with complementary props, realistic home environment, warm ambient light' },
+  { id:'flatlay', icon:'🗂️', name:'Флэтлей', desc:'Вид сверху, композиция', selected:false,
+    prompt:'flat lay product photography from directly above (top-down view), styled composition on textured surface, complementary items arranged artfully around product, editorial magazine style' },
+  { id:'model', icon:'🧍', name:'На модели', desc:'Продукт в использовании', selected:false,
+    prompt:'product in use photography, real person using or wearing the product in natural setting, candid lifestyle moment, authentic feel, natural light, shallow depth of field background blur' },
+  { id:'nature', icon:'🌿', name:'Природа', desc:'Натуральный фон, зелень', selected:false,
+    prompt:'product photography in natural outdoor setting, surrounded by fresh greenery and plants, soft dappled sunlight, botanical aesthetic, organic textures, fresh and eco-friendly feel' },
+  { id:'gradient', icon:'🌈', name:'Градиент', desc:'Цветной градиентный фон', selected:false,
+    prompt:'product on smooth colorful gradient background, pastel to vibrant color transition, trendy social media aesthetic, clean modern feel, subtle reflection on surface below product' },
+  { id:'texture', icon:'🪵', name:'Текстура', desc:'Мрамор, дерево, ткань', selected:false,
+    prompt:'product placed on premium textured surface — marble stone, natural wood, or linen fabric, luxury material background, close-up composition showing product and texture detail' },
+];
+
+S.infoMode = true;
+
+function updateImgSourceNote() {
+  const el = document.getElementById('img-source-note');
+  if (!el) return;
+  if (S.imgB64) {
+    el.innerHTML = '<span style="color:var(--success);font-size:16px">✓</span><span style="color:var(--text)"><b>Фото товара загружено</b> — будет использоваться как референс. Модель сохранит форму и детали вашего товара.</span>';
+    el.style.borderColor = 'var(--success)';
+  } else {
+    el.innerHTML = '<span style="color:var(--warn);font-size:16px">⚠</span><span style="color:var(--muted)">Фото не загружено — генерация только по названию и особенностям. Загрузите фото на шаге 1 для лучшего результата.</span>';
+    el.style.borderColor = 'var(--border)';
+  }
+}
+
+function initConcepts() {
+  updateImgSourceNote();
+  const grid = document.getElementById('concepts-grid');
+  grid.innerHTML = CONCEPTS.map(c => `
+    <div class="concept-card ${c.selected?'selected':''}" id="concept-${c.id}" onclick="toggleConcept('${c.id}')">
+      <div class="concept-icon">${c.icon}</div>
+      <div class="concept-name">${c.name}</div>
+      <div class="concept-desc">${c.desc}</div>
+    </div>`).join('');
+}
+
+function toggleConcept(id) {
+  const c = CONCEPTS.find(x=>x.id===id);
+  c.selected = !c.selected;
+  document.getElementById('concept-'+id).classList.toggle('selected', c.selected);
+}
+
+function setInfoMode(on) {
+  S.infoMode = on;
+  document.getElementById('info-yes').classList.toggle('active', on);
+  document.getElementById('info-no').classList.toggle('active', !on);
+  document.getElementById('infographic-text-block').style.display = on ? 'block' : 'none';
+}
+
+async function startImageGen() {
+  const selected = CONCEPTS.filter(c=>c.selected);
+  if (!selected.length) { alert('Выберите хотя бы одну концепцию'); return; }
+  const oaiKey = document.getElementById('openai-key').value.trim();
+  const orKey  = document.getElementById('openrouter-key').value.trim();
+  if (!oaiKey && !orKey) { alert('Введите OpenAI или OpenRouter API ключ в настройках'); return; }
+
+  document.getElementById('sp-imgs').style.display = 'inline-block';
+  document.getElementById('concept-selector').style.display = 'none';
+  document.getElementById('imgs-results').style.display = 'block';
+  document.getElementById('imgs-note').textContent = `Генерация ${selected.length} изображений параллельно...`;
+
+  const grid = document.getElementById('images-grid-dynamic');
+  grid.innerHTML = selected.map(c => `
+    <div class="img-card" id="imgcard-${c.id}">
+      <div class="img-placeholder loading" id="imgph-${c.id}">
+        <span style="font-size:11px;padding:8px;text-align:center">${c.icon} ${c.name}</span>
+      </div>
+      <div class="img-label">${c.icon} ${c.name}</div>
+    </div>`).join('');
+
+  const name = document.getElementById('product-name').value.trim();
+  const desc = document.getElementById('product-desc').value.trim();
+  const keys = [...S.activeKeys].slice(0,8);
+  const infoText = S.infoMode ? document.getElementById('infographic-text').value.trim() : '';
+
+  await Promise.all(selected.map(c => genOneImage(c, name, desc, keys, infoText, oaiKey, orKey)));
+
+  document.getElementById('sp-imgs').style.display = 'none';
+  document.getElementById('imgs-note').textContent = `Готово! Сгенерировано ${selected.length} вариантов`;
+}
+
+async function genImages(name, desc, keys) {
+  // Called from generate() — just shows the concept selector tab
+  document.getElementById('imgs-note') && (document.getElementById('imgs-note').textContent = '');
+  initConcepts();
+  // Pre-fill infographic text from SEO keys if empty
+  const infoEl = document.getElementById('infographic-text');
+  if (!infoEl.value && keys.length) {
+    const top = keys.slice(0,4).map(k=>'✓ '+k).join('  ');
+    infoEl.value = top;
+  }
+}
+
+async function genOneImage(concept, name, desc, keys, infoText, oaiKey, orKey) {
+  // Build prompt from product name + features (NOT from SEO description)
+  const productLine = `${name}${desc ? ', ' + desc : ''}`;
+  const featLine = keys.slice(0, 6).length ? `Key product features: ${keys.slice(0,6).join(', ')}.` : '';
+  const infoInstr = infoText
+    ? ` Add clean infographic text overlays with these benefits: "${infoText}". Bold white typography, tastefully placed.`
+    : '';
+  const prompt = `${concept.prompt}. This is a product card image for Wildberries marketplace. Product: ${productLine}. ${featLine}${infoInstr} Preserve the exact appearance, shape, color and details of the original product. Ultra high quality, photorealistic. 1:1 square format.`;
+
+  const phEl = document.getElementById('imgph-'+concept.id);
+
+  try {
+    let url = null;
+
+    if (S.model === 'gpt' && oaiKey) {
+      if (S.imgB64) {
+        // Use image editing API — sends the original product photo as reference
+        const formData = new FormData();
+        // Convert base64 to Blob
+        const byteStr = atob(S.imgB64);
+        const ab = new ArrayBuffer(byteStr.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteStr.length; i++) ia[i] = byteStr.charCodeAt(i);
+        const imgBlob = new Blob([ab], { type: 'image/png' });
+        formData.append('model', 'gpt-image-1');
+        formData.append('image[]', imgBlob, 'product.png');
+        formData.append('prompt', prompt);
+        formData.append('n', '1');
+        formData.append('size', '1024x1024');
+        formData.append('quality', 'high');
+
+        const r = await fetch('https://api.openai.com/v1/images/edits', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${oaiKey}` },
+          body: formData
+        });
+        const d = await r.json();
+        if (d.error) throw new Error(d.error.message);
+        if (d.data?.[0]?.b64_json) url = 'data:image/png;base64,' + d.data[0].b64_json;
+        else if (d.data?.[0]?.url) url = d.data[0].url;
+      } else {
+        // No image uploaded — use generations API
+        const r = await fetch('https://api.openai.com/v1/images/generations', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${oaiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ model: 'gpt-image-1', prompt, n: 1, size: '1024x1024', quality: 'high' })
+        });
+        const d = await r.json();
+        if (d.error) throw new Error(d.error.message);
+        if (d.data?.[0]?.b64_json) url = 'data:image/png;base64,' + d.data[0].b64_json;
+        else if (d.data?.[0]?.url) url = d.data[0].url;
+      }
+
+    } else if (S.model === 'banana' && orKey) {
+      // OpenRouter: send image as base64 in content if available
+      const msgContent = S.imgB64
+        ? [
+            { type: 'image_url', image_url: { url: `data:image/png;base64,${S.imgB64}` } },
+            { type: 'text', text: prompt }
+          ]
+        : prompt;
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${orKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'bananadevsai/nano-banana', messages: [{ role: 'user', content: msgContent }] })
+      });
+      const d = await r.json();
+      const txt = d.choices?.[0]?.message?.content || '';
+      const m = txt.match(/https?:\/\/[^\s"<>]+\.(?:png|jpg|jpeg|webp)/i);
+      if (m) url = m[0];
+    }
+
+    if (url) {
+      const card = document.getElementById('imgcard-'+concept.id);
+      const labelEl = card.querySelector('.img-label');
+      phEl.outerHTML = `<img src="${url}" style="width:100%;aspect-ratio:1;object-fit:cover;display:block" />`;
+      const dl = document.createElement('div');
+      dl.className = 'img-download-btn';
+      dl.style.cssText = 'display:block;padding:8px;text-align:center;font-size:12px;color:var(--accent);cursor:pointer;border-top:1px solid var(--border);transition:background 0.15s';
+      dl.textContent = '↓ Скачать';
+      dl.onmouseover = () => dl.style.background = 'rgba(124,106,247,0.07)';
+      dl.onmouseout = () => dl.style.background = '';
+      dl.onclick = () => { const a = document.createElement('a'); a.href = url; a.download = `wb_${concept.id}.png`; a.click(); };
+      labelEl.after(dl);
+    } else {
+      if (phEl) { phEl.classList.remove('loading'); phEl.innerHTML = `<span style="padding:1rem;font-size:12px;color:var(--muted);text-align:center">Нет ключа для<br>${S.model==='gpt'?'OpenAI':'OpenRouter'}</span>`; }
+    }
+  } catch(e) {
+    const phEl2 = document.getElementById('imgph-'+concept.id);
+    if (phEl2) { phEl2.classList.remove('loading'); phEl2.innerHTML = `<span style="padding:1rem;font-size:12px;color:var(--danger)">${e.message.slice(0,80)}</span>`; }
+  }
+}
+
+function openSettings() {
+  document.getElementById('settings-modal').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+function closeSettings() {
+  document.getElementById('settings-modal').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+function closeSettingsOutside(e) {
+  if (e.target === document.getElementById('settings-modal')) closeSettings();
+}
+function saveSettings() {
+  closeSettings();
+}
+
+function copySEO() {
+  const t = document.getElementById('r-title').textContent;
+  const d = document.getElementById('r-desc').textContent;
+  const k = [...document.getElementById('r-keys').querySelectorAll('.tag')].map(el => el.childNodes[0].textContent.trim()).join(', ');
+  navigator.clipboard.writeText(`Заголовок:\n${t}\n\nОписание:\n${d}\n\nКлючевые слова:\n${k}`).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ Скопировано';
+    setTimeout(() => btn.textContent = 'Копировать всё', 2000);
+  }).catch(() => {});
+}
+</script>
+</body>
 </html>
