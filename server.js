@@ -46,6 +46,10 @@ function proxyMpstats(req, res) {
   const reqUrl = new URL(req.url, "http://localhost");
   const targetPath = reqUrl.pathname.replace(/^\/api\/mpstats/, "") + reqUrl.search;
   const token = req.headers["x-mpstats-token"] || "";
+  if (!token) {
+    sendJson(res, 400, { error: "Missing X-Mpstats-TOKEN header" });
+    return;
+  }
 
   const options = {
     hostname: "mpstats.io",
@@ -56,21 +60,29 @@ function proxyMpstats(req, res) {
       "X-Mpstats-TOKEN": token,
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Accept-Encoding": "identity",
       "User-Agent": "wb-seo-app/1.0",
     },
   };
 
   const proxyReq = https.request(options, (proxyRes) => {
-    const chunks = [];
+    const responseHeaders = { ...proxyRes.headers };
+    // Remove hop-by-hop headers that cannot be forwarded.
+    delete responseHeaders.connection;
+    delete responseHeaders["transfer-encoding"];
+    delete responseHeaders["keep-alive"];
+    delete responseHeaders["proxy-authenticate"];
+    delete responseHeaders["proxy-authorization"];
+    delete responseHeaders.te;
+    delete responseHeaders.trailer;
+    delete responseHeaders.upgrade;
 
-    proxyRes.on("data", (chunk) => chunks.push(chunk));
-    proxyRes.on("end", () => {
-      const body = Buffer.concat(chunks);
-      res.writeHead(proxyRes.statusCode || 502, {
-        "Content-Type": proxyRes.headers["content-type"] || "application/json; charset=utf-8",
-      });
-      res.end(body);
-    });
+    res.writeHead(proxyRes.statusCode || 502, responseHeaders);
+    proxyRes.pipe(res);
+  });
+
+  proxyReq.setTimeout(15000, () => {
+    proxyReq.destroy(new Error("MPStats request timeout"));
   });
 
   proxyReq.on("error", (error) => {
