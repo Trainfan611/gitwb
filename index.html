@@ -78,7 +78,7 @@
   .comp-title { font-size: 13px; color: var(--muted); margin-top: 2px; }
   .comp-sales { font-size: 12px; color: var(--success); text-align: right; white-space: nowrap; }
   .keys-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
-  .key-pill { padding: 4px 12px; font-size: 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); transition: all 0.15s; user-select: none; }
+  .key-pill { padding: 4px 12px; font-size: 12px; border-radius: 20px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); transition: all 0.15s; -webkit-user-select: none; user-select: none; }
   .key-pill:hover { border-color: var(--accent); color: var(--accent2); }
   .key-pill.on { background: rgba(124,106,247,0.12); border-color: var(--accent); color: var(--accent2); }
   .status-bar { font-size: 13px; padding: 8px 14px; border-radius: 8px; margin-top: 10px; display: none; }
@@ -131,7 +131,7 @@
   .settings-btn { display: inline-flex; align-items: center; gap: 7px; padding: 8px 16px; font-size: 13px; font-weight: 600; border-radius: 8px; cursor: pointer; border: 1px solid var(--border2); background: var(--surface2); color: var(--muted); font-family: inherit; transition: all 0.15s; }
   .settings-btn:hover { color: var(--text); border-color: var(--accent); }
   .settings-btn svg { width: 15px; height: 15px; }
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 1rem; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
   .modal-overlay.hidden { display: none; }
   .modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 1.75rem; width: 100%; max-width: 640px; position: relative; }
   .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
@@ -247,7 +247,7 @@
     <div class="field">
       <label>Фото товара (для генерации изображений)</label>
       <div class="img-upload" id="upload-zone">
-        <input type="file" id="img-input" accept="image/*" onchange="onImg(event)" />
+        <input type="file" id="img-input" accept="image/*" onchange="onImg(event)" title="Загрузите фото товара" aria-label="Загрузите фото товара" />
         <img id="img-preview" />
         <div id="upload-text">
           <div class="upload-icon">📷</div>
@@ -378,13 +378,23 @@ const S = {
   proxyEnabled: false
 };
 
-const PROXY = 'http://localhost:3333';
+const PROXY = `${window.location.origin}/api/mpstats`;
+
+async function fetchWithTimeout(resource, options = {}, timeoutMs = 10000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    return await fetch(resource, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
 
 async function setProxy(on) {
   if (on) {
     // Test connection first
     try {
-      const r = await fetch(`${PROXY}/health`, { signal: AbortSignal.timeout(2000) });
+      const r = await fetchWithTimeout(`${PROXY}/health`, {}, 2500);
       const d = await r.json();
       if (d.status === 'ok') {
         S.proxyEnabled = true;
@@ -394,7 +404,7 @@ async function setProxy(on) {
         showProxyToast('✓ Прокси подключён — MPStats активен', 'success');
       }
     } catch(e) {
-      showProxyToast('✗ Прокси недоступен. Запустите: node proxy.js', 'error');
+      showProxyToast('✗ Прокси недоступен. Используем fallback через WB API', 'error');
     }
   } else {
     S.proxyEnabled = false;
@@ -499,10 +509,9 @@ async function findCategories() {
   if (S.proxyEnabled && mpKey) {
     try {
       status('st-cat','Загружаем категории из MPStats...','loading');
-      const r = await fetch(`${PROXY}/api/wb/get/categories`, {
+      const r = await fetchWithTimeout(`${PROXY}/api/wb/get/categories`, {
         headers: { 'X-Mpstats-TOKEN': mpKey },
-        signal: AbortSignal.timeout(8000)
-      });
+      }, 8000);
       if (!r.ok) throw new Error(`MPStats: ${r.status}`);
       const d = await r.json();
       const raw = Array.isArray(d) ? d : (d.data || []);
@@ -623,10 +632,9 @@ async function analyzeCompetitors() {
       const d1 = new Date(today); d1.setDate(d1.getDate() - 30);
       const fmt = d => d.toISOString().split('T')[0];
       const url = `${PROXY}/api/wb/get/category?path=${encodeURIComponent(S.cat)}&d1=${fmt(d1)}&d2=${fmt(today)}`;
-      const r = await fetch(url, {
+      const r = await fetchWithTimeout(url, {
         headers: { 'X-Mpstats-TOKEN': mpKey },
-        signal: AbortSignal.timeout(12000)
-      });
+      }, 12000);
       if (!r.ok) throw new Error(`MPStats: ${r.status}`);
       const d = await r.json();
       const raw = (d.data || d);
@@ -748,7 +756,7 @@ function toggleKey(el, k) {
 
 async function generate() {
   const aKey = document.getElementById('anthropic-key').value.trim();
-  if (!aKey) { status('st-gen','Введите Anthropic API ключ','error'); return; }
+  if (!aKey) { status('st-gen','Введите Perplexity API ключ','error'); return; }
 
   document.getElementById('sp-gen').style.display = 'inline-block';
   status('st-gen','Запуск параллельной генерации...','loading');

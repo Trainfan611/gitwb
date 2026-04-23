@@ -1,4 +1,5 @@
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
 
@@ -36,7 +37,67 @@ function sendFile(res, filePath) {
   });
 }
 
+function sendJson(res, statusCode, payload) {
+  res.writeHead(statusCode, { "Content-Type": "application/json; charset=utf-8" });
+  res.end(JSON.stringify(payload));
+}
+
+function proxyMpstats(req, res) {
+  const reqUrl = new URL(req.url, "http://localhost");
+  const targetPath = reqUrl.pathname.replace(/^\/api\/mpstats/, "") + reqUrl.search;
+  const token = req.headers["x-mpstats-token"] || "";
+
+  const options = {
+    hostname: "mpstats.io",
+    port: 443,
+    path: targetPath,
+    method: req.method,
+    headers: {
+      "X-Mpstats-TOKEN": token,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "User-Agent": "wb-seo-app/1.0",
+    },
+  };
+
+  const proxyReq = https.request(options, (proxyRes) => {
+    const chunks = [];
+
+    proxyRes.on("data", (chunk) => chunks.push(chunk));
+    proxyRes.on("end", () => {
+      const body = Buffer.concat(chunks);
+      res.writeHead(proxyRes.statusCode || 502, {
+        "Content-Type": proxyRes.headers["content-type"] || "application/json; charset=utf-8",
+      });
+      res.end(body);
+    });
+  });
+
+  proxyReq.on("error", (error) => {
+    sendJson(res, 502, { error: `MPStats proxy error: ${error.message}` });
+  });
+
+  req.pipe(proxyReq);
+}
+
 const server = http.createServer((req, res) => {
+  const reqUrl = new URL(req.url || "/", "http://localhost");
+
+  if (reqUrl.pathname === "/health") {
+    sendJson(res, 200, { status: "ok" });
+    return;
+  }
+
+  if (reqUrl.pathname === "/api/mpstats/health") {
+    sendJson(res, 200, { status: "ok", proxy: "mpstats" });
+    return;
+  }
+
+  if (reqUrl.pathname.startsWith("/api/mpstats/")) {
+    proxyMpstats(req, res);
+    return;
+  }
+
   const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
   const requestedPath = urlPath === "/" ? "/index.html" : urlPath;
   const safePath = path.normalize(requestedPath).replace(/^(\.\.[/\\])+/, "");
