@@ -42,6 +42,22 @@ function sendJson(res, statusCode, payload) {
   res.end(JSON.stringify(payload));
 }
 
+function getPrefillConfig() {
+  const allowPrefill = String(process.env.APP_PREFILL_KEYS || "").toLowerCase() === "true";
+  if (!allowPrefill) {
+    return { enabled: false };
+  }
+
+  return {
+    enabled: true,
+    mpstatsKey: process.env.MPSTATS_API_KEY || "",
+    perplexityKey: process.env.PERPLEXITY_API_KEY || "",
+    openaiKey: process.env.OPENAI_API_KEY || "",
+    openrouterKey: process.env.OPENROUTER_API_KEY || "",
+    autoEnableProxy: String(process.env.AUTO_ENABLE_MPSTATS_PROXY || "").toLowerCase() === "true",
+  };
+}
+
 function proxyMpstats(req, res) {
   const reqUrl = new URL(req.url, "http://localhost");
   const targetPath = reqUrl.pathname.replace(/^\/api\/mpstats/, "") + reqUrl.search;
@@ -102,6 +118,11 @@ const server = http.createServer((req, res) => {
 
   if (reqUrl.pathname === "/api/mpstats/health") {
     sendJson(res, 200, { status: "ok", proxy: "mpstats" });
+    return;
+  }
+
+  if (reqUrl.pathname === "/api/config") {
+    sendJson(res, 200, getPrefillConfig());
     return;
   }
 

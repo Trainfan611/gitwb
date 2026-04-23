@@ -23,6 +23,17 @@ npm start
 
 > Без MPStats-ключа программа всё равно работает через публичный API Wildberries.
 
+## Автоподстановка ключей при старте
+
+Чтобы ключи были заполнены сразу при открытии приложения, добавьте в Railway Variables:
+
+- `APP_PREFILL_KEYS=true`
+- `MPSTATS_API_KEY=...`
+- `PERPLEXITY_API_KEY=...`
+- `OPENAI_API_KEY=...`
+- `OPENROUTER_API_KEY=...` (опционально)
+- `AUTO_ENABLE_MPSTATS_PROXY=true` (опционально, чтобы MPStats-прокси включался автоматически)
+
 ---
 
 ## Основные файлы

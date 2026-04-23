@@ -271,6 +271,14 @@
       <div class="step-badge" id="s2">2</div>
       <div class="card-title">Выбор категории WB</div>
     </div>
+    <div class="field">
+      <label>Вставьте категорию из MPStats (или ссылку)</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <input type="text" id="manual-category" placeholder="Например: Женщинам/Одежда/Платья или URL из MPStats" style="flex:1;min-width:260px" />
+        <button class="btn" onclick="applyManualCategory()">Применить</button>
+      </div>
+      <div class="hint">Можно вставить как чистый путь категории, так и ссылку из MPStats.</div>
+    </div>
     <div style="font-size:13px;color:var(--muted);margin-bottom:14px">Выберите наиболее подходящую категорию</div>
     <div class="categories-grid" id="cats-list"></div>
     <div class="section-actions" style="margin-top:16px">
@@ -387,6 +395,35 @@ async function fetchWithTimeout(resource, options = {}, timeoutMs = 10000) {
     return await fetch(resource, { ...options, signal: controller.signal });
   } finally {
     clearTimeout(timeoutId);
+  }
+}
+
+function applyInitialKeys(config) {
+  if (!config || !config.enabled) return;
+
+  const mpstatsInput = document.getElementById('mpstats-key');
+  const perplexityInput = document.getElementById('anthropic-key');
+  const openaiInput = document.getElementById('openai-key');
+  const openrouterInput = document.getElementById('openrouter-key');
+
+  if (mpstatsInput && config.mpstatsKey && !mpstatsInput.value) mpstatsInput.value = config.mpstatsKey;
+  if (perplexityInput && config.perplexityKey && !perplexityInput.value) perplexityInput.value = config.perplexityKey;
+  if (openaiInput && config.openaiKey && !openaiInput.value) openaiInput.value = config.openaiKey;
+  if (openrouterInput && config.openrouterKey && !openrouterInput.value) openrouterInput.value = config.openrouterKey;
+
+  if (config.autoEnableProxy && config.mpstatsKey) {
+    setProxy(true);
+  }
+}
+
+async function bootstrapInitialConfig() {
+  try {
+    const response = await fetchWithTimeout(`${window.location.origin}/api/config`, {}, 4000);
+    if (!response.ok) return;
+    const config = await response.json();
+    applyInitialKeys(config);
+  } catch (e) {
+    // Do not block UI if config endpoint is unavailable.
   }
 }
 
@@ -614,6 +651,43 @@ function selectCat(i, name) {
   S.cat = name;
   document.querySelectorAll('.cat-item').forEach((el,j) => el.classList.toggle('selected', i===j));
   document.getElementById('btn-analyze').disabled = false;
+  const manualInput = document.getElementById('manual-category');
+  if (manualInput) manualInput.value = name;
+}
+
+function normalizeCategoryInput(raw) {
+  if (!raw) return '';
+  const val = raw.trim();
+  if (!val) return '';
+
+  // If the user pastes a URL from MPStats, try to extract path/category query params.
+  try {
+    const url = new URL(val);
+    const qPath = url.searchParams.get('path') || url.searchParams.get('category');
+    if (qPath) return decodeURIComponent(qPath).trim();
+    const pathname = decodeURIComponent(url.pathname || '').replace(/^\/+|\/+$/g, '');
+    if (pathname) return pathname;
+  } catch (e) {
+    // Not a URL, continue with plain text normalization.
+  }
+
+  return val.replace(/\s{2,}/g, ' ').trim();
+}
+
+function applyManualCategory() {
+  const input = document.getElementById('manual-category');
+  const normalized = normalizeCategoryInput(input ? input.value : '');
+  if (!normalized) {
+    status('st-comp', 'Вставьте категорию из MPStats', 'error');
+    return;
+  }
+
+  S.cat = normalized;
+  if (input) input.value = normalized;
+  document.querySelectorAll('.cat-item').forEach(el => el.classList.remove('selected'));
+  document.getElementById('btn-analyze').disabled = false;
+  status('st-comp', `Категория применена: ${normalized}`, 'success');
+  setTimeout(() => status('st-comp','',''), 2200);
 }
 
 async function analyzeCompetitors() {
@@ -1055,6 +1129,8 @@ function copySEO() {
     setTimeout(() => btn.textContent = 'Копировать всё', 2000);
   }).catch(() => {});
 }
+
+bootstrapInitialConfig();
 </script>
 </body>
 </html>
