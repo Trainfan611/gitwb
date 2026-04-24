@@ -533,73 +533,93 @@ function status(id, msg, type) {
   el.innerHTML = type === 'loading' ? `<span class="spinner"></span>${msg}` : msg;
 }
 
+/** WB: быстрый список категорий из выдачи поиска (короткий таймаут). */
+async function fetchCategoriesFromWb(name) {
+  const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(name)}&resultset=catalog&sort=popular&spp=30`;
+  const r = await fetchWithTimeout(url, {}, 4500);
+  if (!r.ok) throw new Error(`WB: ${r.status}`);
+  const d = await r.json();
+  const catMap = new Map();
+  (d.data?.products || []).forEach(p => {
+    if (p.subjectName && !catMap.has(p.subjectName)) {
+      catMap.set(p.subjectName, { name: p.subjectName, path: p.kindName || '' });
+    }
+  });
+  const cats = [...catMap.values()].slice(0, 20);
+  if (!cats.length) throw new Error('Нет данных');
+  return cats;
+}
+
+/** MPStats через серверный прокси (параллельно с WB). */
+async function fetchCategoriesFromMpstats(name, mpKey) {
+  const r = await fetchWithTimeout(`${PROXY}/api/wb/get/categories`, {
+    headers: { 'X-Mpstats-TOKEN': mpKey },
+  }, 5000);
+  if (!r.ok) throw new Error(`MPStats: ${r.status}`);
+  const d = await r.json();
+  const raw = Array.isArray(d) ? d : (d.data || []);
+  const q = name.toLowerCase();
+  const scored = raw.map(c => {
+    const n = (c.name || c.category || '').toLowerCase();
+    const score = q.split(' ').filter(w => w.length > 2 && n.includes(w)).length;
+    return { ...c, _score: score };
+  }).sort((a,b) => b._score - a._score);
+  const cats = scored.slice(0, 20).map(c => ({
+    name: c.name || c.category || c.title || '',
+    path: c.path || c.breadcrumb || '',
+    mpstats: true
+  })).filter(c => c.name);
+  if (!cats.length) throw new Error('Нет категорий');
+  return cats;
+}
+
 async function findCategories() {
   const name = document.getElementById('product-name').value.trim();
   if (!name) { status('st-cat','Введите название товара','error'); return; }
   const mpKey = document.getElementById('mpstats-key').value.trim();
 
   document.getElementById('sp-cat').style.display = 'inline-block';
+  status('st-cat','Ищем категории (WB + MPStats параллельно)...','loading');
 
-  let cats = [];
+  const runId = (S._catRunId = (S._catRunId || 0) + 1);
+  const useResult = (cats, statusMsg, statusType) => {
+    if (runId !== S._catRunId) return;
+    document.getElementById('sp-cat').style.display = 'none';
+    status('st-cat', statusMsg, statusType);
+    if (statusType === 'success') setTimeout(() => status('st-cat','',''), 2200);
+    renderCategories(cats);
+  };
 
-  // ── MPStats через прокси ──────────────────────────────────────────
-  if (S.proxyEnabled && mpKey) {
-    try {
-      status('st-cat','Загружаем категории из MPStats...','loading');
-      const r = await fetchWithTimeout(`${PROXY}/api/wb/get/categories`, {
-        headers: { 'X-Mpstats-TOKEN': mpKey },
-      }, 8000);
-      if (!r.ok) throw new Error(`MPStats: ${r.status}`);
-      const d = await r.json();
-      const raw = Array.isArray(d) ? d : (d.data || []);
-      // Filter by name relevance
-      const q = name.toLowerCase();
-      const scored = raw.map(c => {
-        const n = (c.name || c.category || '').toLowerCase();
-        const score = q.split(' ').filter(w => w.length > 2 && n.includes(w)).length;
-        return { ...c, _score: score };
-      }).sort((a,b) => b._score - a._score);
-      cats = scored.slice(0, 20).map(c => ({
-        name: c.name || c.category || c.title || '',
-        path: c.path || c.breadcrumb || '',
-        mpstats: true
-      })).filter(c => c.name);
-      if (!cats.length) throw new Error('Нет категорий');
-      status('st-cat', `MPStats: найдено ${cats.length} категорий`, 'success');
-      setTimeout(() => status('st-cat','',''), 2000);
-    } catch(e) {
-      status('st-cat', `MPStats ошибка: ${e.message} — переключаемся на WB`, 'error');
-      cats = [];
-    }
+  const wbPromise = fetchCategoriesFromWb(name);
+  const mpPromise = (S.proxyEnabled && mpKey)
+    ? fetchCategoriesFromMpstats(name, mpKey)
+    : Promise.reject(new Error('MPStats выключен'));
+
+  wbPromise.then((wbCats) => {
+    if (runId !== S._catRunId) return;
+    document.getElementById('sp-cat').style.display = 'none';
+    status('st-cat', (S.proxyEnabled && mpKey) ? `WB: ${wbCats.length} категорий — уточняем MPStats…` : `WB: найдено ${wbCats.length} категорий`, (S.proxyEnabled && mpKey) ? 'loading' : 'success');
+    if (!(S.proxyEnabled && mpKey)) setTimeout(() => status('st-cat','',''), 2000);
+    renderCategories(wbCats);
+  }).catch(() => {});
+
+  const settled = await Promise.allSettled([wbPromise, mpPromise]);
+  if (runId !== S._catRunId) return;
+
+  const wbRes = settled[0];
+  const mpRes = settled[1];
+
+  if (mpRes.status === 'fulfilled' && mpRes.value.length) {
+    useResult(mpRes.value, `MPStats: найдено ${mpRes.value.length} категорий`, 'success');
+  } else if (wbRes.status === 'fulfilled' && wbRes.value.length) {
+    const hint = (S.proxyEnabled && mpKey && mpRes.status === 'rejected')
+      ? ` (MPStats: ${mpRes.reason?.message || 'недоступен'})`
+      : '';
+    useResult(wbRes.value, `WB: найдено ${wbRes.value.length} категорий${hint}`, 'success');
+  } else {
+    const fallback = smartCategories(name);
+    useResult(fallback, 'Категории подобраны по названию товара', 'success');
   }
-
-  // ── WB публичный API (fallback) ───────────────────────────────────
-  if (!cats.length) {
-    try {
-      status('st-cat','Ищем категории на Wildberries...','loading');
-      const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(name)}&resultset=catalog&sort=popular&spp=30`;
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`WB: ${r.status}`);
-      const d = await r.json();
-      const catMap = new Map();
-      (d.data?.products || []).forEach(p => {
-        if (p.subjectName && !catMap.has(p.subjectName)) {
-          catMap.set(p.subjectName, { name: p.subjectName, path: p.kindName || '' });
-        }
-      });
-      cats = [...catMap.values()].slice(0, 20);
-      if (!cats.length) throw new Error('Нет данных');
-      status('st-cat', `WB: найдено ${cats.length} категорий`, 'success');
-      setTimeout(() => status('st-cat','',''), 2000);
-    } catch(e) {
-      cats = smartCategories(name);
-      status('st-cat','Категории подобраны по названию товара','success');
-      setTimeout(() => status('st-cat','',''), 2500);
-    }
-  }
-
-  document.getElementById('sp-cat').style.display = 'none';
-  renderCategories(cats);
 }
 
 function smartCategories(name) {
