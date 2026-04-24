@@ -300,7 +300,7 @@
       <div class="tab active" onclick="tab('comp','list')">Топ 10 конкурентов</div>
       <div class="tab" onclick="tab('comp','keys')">Ключевые слова</div>
     </div>
-    <div id="comp-list" class="tab-panel active" id="comp-list"></div>
+    <div id="comp-list" class="tab-panel active"></div>
     <div id="comp-keys" class="tab-panel">
       <div style="font-size:13px;color:var(--muted)">Нажмите на ключевое слово чтобы исключить из генерации</div>
       <div class="keys-cloud" id="keys-cloud"></div>
@@ -660,19 +660,54 @@ function renderCategories(cats) {
   list.innerHTML = cats.map((c,i) => {
     const n = c.name || c.category || c.title || String(c).slice(0,50);
     const p = c.path || c.breadcrumb || '';
-    return `<div class="cat-item" onclick="selectCat(${i},'${n.replace(/'/g,"\\'")}')">
+    return `<div class="cat-item" onclick='selectCat(${i},${JSON.stringify(n)},${JSON.stringify(p || "")})'>
       <div class="cat-name">${n}</div>
       ${p ? `<div class="cat-path">${p}</div>` : ''}
     </div>`;
   }).join('');
 }
 
-function selectCat(i, name) {
-  S.cat = name;
+/** Путь категории для MPStats (полный) и для отображения в поле ввода. */
+function buildCategoryPathForApi(name, path) {
+  const leaf = String(name || '').trim();
+  const parent = String(path || '').trim();
+  if (!leaf && !parent) return '';
+  if (!parent || parent === 'Wildberries') return leaf;
+  if (!leaf) return parent;
+  if (parent.endsWith(leaf) || parent.includes('/' + leaf)) return parent;
+  return `${parent.replace(/\/+$/, '')}/${leaf}`.replace(/\/+/g, '/');
+}
+
+function selectCat(i, name, path) {
+  S.cat = buildCategoryPathForApi(name, path);
   document.querySelectorAll('.cat-item').forEach((el,j) => el.classList.toggle('selected', i===j));
   document.getElementById('btn-analyze').disabled = false;
   const manualInput = document.getElementById('manual-category');
-  if (manualInput) manualInput.value = name;
+  if (manualInput) manualInput.value = S.cat;
+}
+
+/** Запрос для WB search: текстовый поиск плохо работает по «сухому» пути MPStats — смешиваем с названием товара. */
+function wbCompetitorSearchQuery() {
+  const product = document.getElementById('product-name').value.trim();
+  const cat = String(S.cat || '').trim();
+  if (!cat) return product;
+  const leaf = cat.includes('/') ? cat.split('/').filter(Boolean).pop() : cat;
+  if (product) return `${product} ${leaf}`.trim();
+  return leaf;
+}
+
+function extractMpstatsRows(d) {
+  if (!d) return [];
+  if (Array.isArray(d)) return d;
+  if (Array.isArray(d.data)) return d.data;
+  if (d.data && Array.isArray(d.data.items)) return d.data.items;
+  if (d.data && typeof d.data === 'object') {
+    for (const v of Object.values(d.data)) {
+      if (Array.isArray(v) && v.length) return v;
+    }
+  }
+  if (Array.isArray(d.items)) return d.items;
+  return [];
 }
 
 function normalizeCategoryInput(raw) {
@@ -731,7 +766,7 @@ async function analyzeCompetitors() {
       }, 12000);
       if (!r.ok) throw new Error(`MPStats: ${r.status}`);
       const d = await r.json();
-      const raw = (d.data || d);
+      const raw = extractMpstatsRows(d);
       if (!Array.isArray(raw) || !raw.length) throw new Error('Нет данных');
       items = raw.slice(0, 10).map(p => ({
         name: p.name || p.title || '',
@@ -756,8 +791,10 @@ async function analyzeCompetitors() {
   if (!items.length) {
     try {
       status('st-comp','Загружаем конкурентов с Wildberries...','loading');
-      const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(S.cat)}&resultset=catalog&sort=popular&spp=30`;
-      const r = await fetch(url);
+      const q = wbCompetitorSearchQuery();
+      if (!q) throw new Error('Нет запроса для WB');
+      const url = `https://search.wb.ru/exactmatch/ru/common/v9/search?appType=1&curr=rub&dest=-1257786&query=${encodeURIComponent(q)}&resultset=catalog&sort=popular&spp=30`;
+      const r = await fetchWithTimeout(url, {}, 12000);
       if (!r.ok) throw new Error(`WB: ${r.status}`);
       const d = await r.json();
       const products = (d.data?.products || []).slice(0, 10);
@@ -782,6 +819,7 @@ async function analyzeCompetitors() {
 
   document.getElementById('sp-comp').style.display = 'none';
   document.getElementById('btn-analyze').disabled = false;
+  tab('comp', 'list');
   processCompetitors(items);
 }
 
