@@ -48,8 +48,10 @@ npm start
 | Сервис | Для чего | Где получить |
 |--------|----------|--------------|
 | **MPStats** | Данные конкурентов (продажи, выручка) | mpstats.io → Личный кабинет → API |
-| **Perplexity** | Генерация SEO-описания | perplexity.ai → Settings → API |
-| **OpenAI** | Генерация изображений (GPT Image 1) | platform.openai.com → API keys |
+| **Perplexity** | Генерация SEO-описания (ключ `pplx-...`) | perplexity.ai → Settings → API |
+| **OpenAI** | SEO через ChatGPT (`gpt-4o-mini`) и изображения (GPT Image 1) | platform.openai.com → API keys |
+
+SEO: сначала вызывается Perplexity (если указан ключ `pplx-...`), при ошибке или отсутствии ключа используется OpenAI. Ключ `sk-...`, вставленный в поле Perplexity, автоматически считается ключом OpenAI.
 | **OpenRouter** | Генерация изображений (Nano Banana) | openrouter.ai → Keys |
 
 ---

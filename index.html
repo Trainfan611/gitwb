@@ -180,9 +180,9 @@
             <div class="hint">Личный кабинет → API на mpstats.io</div>
           </div>
           <div class="field">
-            <label>Perplexity API ключ (для SEO)</label>
-            <input type="text" id="anthropic-key" placeholder="pplx-..." />
-            <div class="hint">perplexity.ai → Settings → API</div>
+            <label>Perplexity API ключ (для SEO, опционально)</label>
+            <input type="text" id="anthropic-key" placeholder="pplx-... (или оставьте пустым — будет OpenAI)" />
+            <div class="hint">Perplexity: perplexity.ai → API. Если ключ OpenAI случайно вставлен сюда — он будет использован как OpenAI.</div>
           </div>
           <div class="field">
             <label>OpenAI API ключ (GPT Image 1)</label>
@@ -886,9 +886,30 @@ function toggleKey(el, k) {
   else { S.activeKeys.add(k); el.classList.add('on'); }
 }
 
+function looksLikePerplexityKey(k) {
+  return /^pplx-/i.test(String(k || '').trim());
+}
+function looksLikeOpenAiKey(k) {
+  const s = String(k || '').trim();
+  return /^sk-[a-zA-Z0-9_-]{8,}$/.test(s);
+}
+
+function resolveSeoApiKeys() {
+  const fieldSeo = document.getElementById('anthropic-key').value.trim();
+  const fieldOpenai = document.getElementById('openai-key').value.trim();
+  let perplexityKey = '';
+  let openaiKey = fieldOpenai;
+  if (looksLikePerplexityKey(fieldSeo)) perplexityKey = fieldSeo;
+  else if (looksLikeOpenAiKey(fieldSeo)) openaiKey = openaiKey || fieldSeo;
+  return { perplexityKey, openaiKey };
+}
+
 async function generate() {
-  const aKey = document.getElementById('anthropic-key').value.trim();
-  if (!aKey) { status('st-gen','Введите Perplexity API ключ','error'); return; }
+  const { perplexityKey, openaiKey } = resolveSeoApiKeys();
+  if (!perplexityKey && !openaiKey) {
+    status('st-gen','Для SEO укажите ключ Perplexity (pplx-...) или OpenAI (sk-...) в настройках', 'error');
+    return;
+  }
 
   document.getElementById('sp-gen').style.display = 'inline-block';
   status('st-gen','Запуск параллельной генерации...','loading');
@@ -902,7 +923,7 @@ async function generate() {
   const compNames = S.competitors.map(c=>c.name||c.title||'').filter(Boolean);
 
   await Promise.all([
-    genSEO(aKey, name, desc, keys, compNames),
+    genSEO({ perplexityKey, openaiKey }, name, desc, keys, compNames),
     genImages(name, desc, keys)
   ]);
 
@@ -910,7 +931,45 @@ async function generate() {
   status('st-gen','Готово! SEO и изображения сгенерированы.','success');
 }
 
-async function genSEO(key, name, desc, keys, comps) {
+async function genSeoViaPerplexity(key, prompt) {
+  const r = await fetchWithTimeout('https://api.perplexity.ai/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+    body: JSON.stringify({
+      model: 'llama-3.1-sonar-large-128k-online',
+      max_tokens: 1200,
+      messages: [
+        { role: 'system', content: 'Ты эксперт по SEO для маркетплейса Wildberries. Отвечай только на русском языке.' },
+        { role: 'user', content: prompt },
+      ],
+    }),
+  }, 90000);
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error?.message || `Perplexity HTTP ${r.status}`);
+  if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
+  return d.choices?.[0]?.message?.content || '';
+}
+
+async function genSeoViaOpenAI(key, prompt) {
+  const r = await fetchWithTimeout('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${key}` },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      max_tokens: 1200,
+      messages: [
+        { role: 'system', content: 'Ты эксперт по SEO для маркетплейса Wildberries. Отвечай только на русском языке.' },
+        { role: 'user', content: prompt },
+      ],
+    }),
+  }, 90000);
+  const d = await r.json();
+  if (!r.ok) throw new Error(d.error?.message || `OpenAI HTTP ${r.status}`);
+  if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
+  return d.choices?.[0]?.message?.content || '';
+}
+
+async function genSEO(apiKeys, name, desc, keys, comps) {
   const prompt = `Ты эксперт по SEO-оптимизации карточек товаров на Wildberries.
 
 Товар: "${name}"${desc ? ` — ${desc}` : ''}
@@ -929,25 +988,37 @@ async function genSEO(key, name, desc, keys, comps) {
 ОПИСАНИЕ: [текст описания]
 КЛЮЧИ: [слово1, слово2, слово3, ...]`;
 
-  try {
-    const r = await fetch('https://api.perplexity.ai/chat/completions', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':`Bearer ${key}`},
-      body: JSON.stringify({
-        model:'llama-3.1-sonar-large-128k-online',
-        max_tokens:1200,
-        messages:[
-          {role:'system', content:'Ты эксперт по SEO для маркетплейса Wildberries. Отвечай только на русском языке.'},
-          {role:'user', content:prompt}
-        ]
-      })
-    });
-    const d = await r.json();
-    if (d.error) throw new Error(d.error.message || JSON.stringify(d.error));
-    parseSEO(d.choices?.[0]?.message?.content || '');
-  } catch(e) {
-    document.getElementById('r-desc').textContent = `Ошибка: ${e.message}`;
+  const { perplexityKey, openaiKey } = apiKeys;
+  const errors = [];
+
+  if (perplexityKey) {
+    try {
+      const text = await genSeoViaPerplexity(perplexityKey, prompt);
+      if (String(text || '').trim()) {
+        parseSEO(text);
+        return;
+      }
+    } catch (e) {
+      errors.push(`Perplexity: ${e.message}`);
+    }
   }
+
+  if (openaiKey) {
+    try {
+      const text = await genSeoViaOpenAI(openaiKey, prompt);
+      if (String(text || '').trim()) {
+        parseSEO(text);
+        return;
+      }
+    } catch (e) {
+      errors.push(`OpenAI: ${e.message}`);
+    }
+  }
+
+  document.getElementById('r-desc').textContent =
+    errors.length
+      ? `Ошибка: ${errors.join(' · ')}. Для Perplexity нужен ключ вида pplx-..., для ChatGPT/OpenAI — sk-... (поле «OpenAI» или верхнее поле, если туда вставлен sk-ключ).`
+      : 'Ошибка: не удалось сгенерировать SEO. Укажите ключ Perplexity (pplx-...) или OpenAI (sk-...) в настройках.';
 }
 
 function parseSEO(text) {
